@@ -1,0 +1,51 @@
+# JavaScript/Node.js Dependencies for Notes Application Test Suite
+# This file documents the required npm packages for running Playwright automated tests
+
+## NPM Packages Required
+
+### Production/Testing Dependencies:
+- @playwright/test@^1.58.0 - Cross-browser automation and testing framework
+- @types/node@^25.1.0 - TypeScript type definitions for Node.js
+
+## Installation Instructions
+
+### Step 1: Install npm packages
+```bash
+npm install
+```
+
+### Step 2: Install Playwright browsers
+```bash
+npx playwright install --with-deps
+```
+
+## System Requirements
+
+- Node.js: v18.x or higher
+- npm: v9.x or higher
+- Supported OS: Windows, macOS, Linux
+- Disk Space: At least 1GB for browser binaries
+- RAM: Minimum 4GB recommended
+
+## Browser Support
+
+Playwright automatically manages:
+- Chromium
+- Firefox
+- WebKit (Safari)
+
+## Verification
+
+To verify installation:
+```bash
+npm --version
+node --version
+npx playwright --version
+```
+
+## Additional Notes
+
+- Playwright automatically downloads browser binaries during first run or via `npx playwright install --with-deps`
+- For CI/CD environments (GitHub Actions), ensure sufficient disk space for browser cache
+- All dependencies are specified in package.json
+- Use package-lock.json for reproducible installs across environments
