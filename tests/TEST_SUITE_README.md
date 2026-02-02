@@ -20,8 +20,7 @@ tests/
 ├── auth.regression.spec.js      # Authentication regression tests
 ├── notes.smoke.spec.js          # Notes management smoke tests
 ├── notes.regression.spec.js     # Notes management regression tests
-├── seed.spec.js                 # Seed file for test setup
-└── example.spec.js              # Example test file
+
 ```
 
 ---
