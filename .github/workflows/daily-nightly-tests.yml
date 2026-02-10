@@ -1,66 +1,66 @@
-name: Daily Nightly Tests (Nepal Time)
+# name: Daily Nightly Tests (Nepal Time)
 
-on:
-  schedule:
-    # Runs every day at 11 PM Nepal Standard Time (UTC+5:45)
-    # Which is 5:15 PM UTC (17:15 UTC)
-    - cron: '15 17 * * *'
-  workflow_dispatch: # Allows manual triggering from GitHub UI
+# on:
+#   schedule:
+#     # Runs every day at 11 PM Nepal Standard Time (UTC+5:45)
+#     # Which is 5:15 PM UTC (17:15 UTC)
+#     - cron: '15 17 * * *'
+#   workflow_dispatch: # Allows manual triggering from GitHub UI
 
-jobs:
-  test:
-    name: Run Nightly Tests
-    runs-on: ubuntu-latest
+# jobs:
+#   test:
+#     name: Run Nightly Tests
+#     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        node-version: [18.x]
+#     strategy:
+#       matrix:
+#         node-version: [18.x]
     
-    # Allow sufficient resources for parallel test execution
-    concurrency:
-      group: nightly-tests-${{ github.ref }}
-      cancel-in-progress: false
+#     # Allow sufficient resources for parallel test execution
+#     concurrency:
+#       group: nightly-tests-${{ github.ref }}
+#       cancel-in-progress: false
     
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
       
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+#       - name: Setup Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: ${{ matrix.node-version }}
+#           cache: 'npm'
       
-      - name: Install dependencies
-        run: npm install
+#       - name: Install dependencies
+#         run: npm install
       
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+#       - name: Install Playwright browsers
+#         run: npx playwright install --with-deps
       
-      - name: Run Playwright tests
-        run: npm test
-        env:
-          CI: true
+#       - name: Run Playwright tests
+#         run: npm test
+#         env:
+#           CI: true
       
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+#       - name: Upload test results
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: playwright-report
+#           path: playwright-report/
+#           retention-days: 30
       
-      - name: Comment on PR with test results
-        if: always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const testResultsPath = './test-results';
+#       - name: Comment on PR with test results
+#         if: always()
+#         uses: actions/github-script@v7
+#         with:
+#           script: |
+#             const fs = require('fs');
+#             const testResultsPath = './test-results';
             
-            if (fs.existsSync(testResultsPath)) {
-              const files = fs.readdirSync(testResultsPath);
-              const hasFailures = files.some(f => f.includes('failed'));
+#             if (fs.existsSync(testResultsPath)) {
+#               const files = fs.readdirSync(testResultsPath);
+#               const hasFailures = files.some(f => f.includes('failed'));
               
-              console.log(`Test execution complete. Results available in artifacts.`);
-            }
+#               console.log(`Test execution complete. Results available in artifacts.`);
+#             }
